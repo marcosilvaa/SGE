@@ -9,13 +9,13 @@ class InflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = models.Inflow
     template_name = 'inflow_list.html'
     context_object_name = 'inflows'
-    paginate_by=5
+    paginate_by = 5
     permission_required = 'inflows.view_inflow'
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
         product = self.request.GET.get('product')
-        
+
         if product:
             queryset = queryset.filter(product__title__icontains=product)
         return queryset

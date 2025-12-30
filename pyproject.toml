@@ -9,4 +9,6 @@ dependencies = [
     "django-restframework>=0.0.1",
     "djangorestframework>=3.16.1",
     "djangorestframework-simplejwt>=5.5.1",
+    "flake8>=7.3.0",
+    "pylint>=4.0.4",
 ]

@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from . import models, forms, serializers
 from app import metrics
 
+
 class OutflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = models.Outflow
     template_name = 'outflow_list.html'
@@ -27,23 +28,25 @@ class OutflowListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['sales_metrics'] = metrics.get_sales_metrics()
         return context
 
+
 class OutflowCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = models.Outflow
     template_name = 'outflow_create.html'
     form_class = forms.OutflowForm
     success_url = reverse_lazy('outflow_list')
     permission_required = 'outflows.add_outflow'
-    
+
 
 class OutflowDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = models.Outflow
     template_name = 'outflow_detail.html'
     permission_required = 'outflows.view_outflow'
-    
+
+
 class OutflowCreateListAPIView(generics.ListCreateAPIView):
     queryset = models.Outflow.objects.all()
     serializer_class = serializers.OutflowSerializer
-    
+
 
 class OutflowRetrieveAPIView(generics.RetrieveAPIView):
     queryset = models.Outflow.objects.all()

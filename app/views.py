@@ -8,18 +8,18 @@ from . import metrics
 @login_required(login_url='login')
 def home(request):
     product_metrics = metrics.get_product_metrics()
-    #print("DEBUG METRICS:", product_metrics)
+    # print("DEBUG METRICS:", product_metrics)
     sales_metrics = metrics.get_sales_metrics()
     graphic_product_category_metric = metrics.get_graphic_product_category_metric()
     graphic_product_brand_metric = metrics.get_graphic_product_brand_metric()
     daily_sales_data = metrics.get_daily_sales_data()
     daily_sales_quantity_data = metrics.get_daily_sales_quantity_data()
-    
+
     # CORREÇÃO AQUI:
     # Como você comentou a busca no banco, precisamos definir a variavel como vazia manualmente
     # ai_result = AIResult.objects.first()
     # ai_result = ai_result.result if ai_result else ''
-    ai_result = '' 
+    ai_result = ''
 
     context = {
         'product_metrics': product_metrics,
