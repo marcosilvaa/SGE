@@ -5,15 +5,25 @@
 {% endblock %}
 
 {% block content %}
+  <div class="page-header">
+    <div>
+      <div class="eyebrow">Estoque</div>
+      <h1 class="page-title">Produtos</h1>
+      <p class="page-description">Catálogo com saldo, classificação, preço de custo, preço de venda e número de série.</p>
+    </div>
+    {% if perms.products.add_product %}
+      <a href="{% url 'product_create' %}" class="btn btn-primary">
+        <i class="bi bi-plus"></i> Novo produto
+      </a>
+    {% endif %}
+  </div>
 
   {% if perms.products.view_product and perms.inflows.view_inflow %}
     {% include 'components/_product_metrics.html' %}
   {% endif %}
 
-  <div class="mb-4"></div>
-
   <div class="row mb-3">
-    <div class="col-md-6">
+    <div class="col-lg-7">
       <form method="get" action="{% url 'product_list' %}">
         <div class="input-group">
           <input type="text" class="form-control" name="title" placeholder="Título" value="{{ request.GET.title }}">
@@ -24,29 +34,22 @@
         </div>
       </form>
     </div>
-    {% if perms.products.add_product %}
-      <div class="col-md-6">
-        <a href="{% url 'product_create' %}" class="btn btn-success float-end">
-          <i class="bi bi-plus"></i> Novo Produto
-        </a>
-      </div>
-    {% endif %}
   </div>
 
   <div class="row mb-3">
-    <div class="col-md-6">
+    <div class="col-lg-7">
       <form method="get" action="{% url 'product_list' %}">
         <div class="input-group">
           <select class="form-select" name="category">
             <option value="" {% if not request.GET.category %} selected {% endif %}>Todas as Categorias</option>
             {% for category in categories %}
-              <option value="{{ category.id }}" {% if request.GET.category == category.id %} selected {% endif %}>{{ category.name }}</option>
+              <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %} selected {% endif %}>{{ category.name }}</option>
             {% endfor %}
           </select>
           <select class="form-select" name="brand">
             <option value="" {% if not request.GET.brand %} selected {% endif %}>Todas as Marcas</option>
             {% for brand in brands %}
-              <option value="{{ brand.id }}" {% if request.GET.brand == brand.id %} selected {% endif %}>{{ brand.name }}</option>
+              <option value="{{ brand.id }}" {% if request.GET.brand == brand.id|stringformat:"s" %} selected {% endif %}>{{ brand.name }}</option>
             {% endfor %}
           </select>
           <button type="submit" class="btn btn-primary">

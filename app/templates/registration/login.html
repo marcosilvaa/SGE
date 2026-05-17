@@ -1,44 +1,46 @@
 {% extends 'base.html' %}
-{% block title %}Login{% endblock %}
+
+{% block title %}
+SGE - Login
+{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title text-center mb-4">Login</h5>
-          <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-              <label for="username" class="form-label">Usuário</label>
-              <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Senha</label>
-              <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <div class="d-grid gap-2">
-              <button type="submit" class="btn btn-primary">Entrar</button>
-            </div>
-          </form>
-          {% if form.errors %}
-            <div class="alert alert-danger mt-4">
-              <ul class="mb-0">
-                {% for field in form %}
-                  {% for error in field.errors %}
-                    <li>{{ error }}</li>
-                  {% endfor %}
-                {% endfor %}
-                {% for error in form.non_field_errors %}
-                  <li>{{ error }}</li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endif %}
+<section class="landing-section">
+  <div class="landing-inner login-page">
+    <div class="login-showcase">
+      <div class="section-label">Acesso administrativo</div>
+      <h1>Entre para acompanhar estoque, vendas e reposições.</h1>
+      <p>
+        Dashboard, cadastros e movimentações em uma interface consistente com o novo design system do SGE.
+      </p>
+    </div>
+
+    <div class="login-panel">
+      <h1>Login</h1>
+      <p>Use sua conta para acessar a área logada.</p>
+
+      {% if form.errors %}
+        <div class="alert alert-danger mt-4" role="alert">
+          Usuário ou senha inválidos. Verifique os dados e tente novamente.
         </div>
-      </div>
+      {% endif %}
+
+      <form method="post" class="mt-4">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="username" class="form-label">Usuário</label>
+          <input type="text" class="form-control" id="username" name="username" autocomplete="username" required>
+        </div>
+        <div class="mb-4">
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" required>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary">Entrar</button>
+          <a href="{% url 'landing' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+      </form>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

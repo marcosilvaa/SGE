@@ -5,15 +5,25 @@ SGE - Saídas
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
+  <div>
+    <div class="eyebrow">Movimentações</div>
+    <h1 class="page-title">Saídas</h1>
+    <p class="page-description">Vendas e retiradas de estoque com impacto direto nos indicadores.</p>
+  </div>
+  {% if perms.outflows.add_outflow %}
+    <a href="{% url 'outflow_create' %}" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Nova saída
+    </a>
+  {% endif %}
+</div>
 
 {% if perms.outflows.view_outflow %}
 {% include 'components/_sales_metrics.html' %}
 {% endif %}
 
-<div class="mb-4"></div>
-
 <div class="row mb-3">
-  <div class="col-md-6">
+  <div class="col-lg-6">
     <form method="get" action="{% url 'outflow_list' %}">
       <div class="input-group">
         <input type="text" class="form-control" name="product" placeholder="Produto" value="{{ request.GET.product }}">
@@ -23,13 +33,6 @@ SGE - Saídas
       </div>
     </form>
   </div>
-  {% if perms.outflows.add_outflow %}
-  <div class="col-md-6">
-    <a href="{% url 'outflow_create' %}" class="btn btn-success float-end">
-      <i class="bi bi-plus"></i> Nova Saída
-    </a>
-  </div>
-  {% endif %}
 </div>
 
 <div class="table-responsive">
@@ -38,9 +41,9 @@ SGE - Saídas
       <tr>
         <th>ID</th>
         <th>Produto</th>
-        <th>Fornecedor</th>
+        <th>Descrição</th>
         <th>Quantidade</th>
-        <th>Data de entrada</th>
+        <th>Data de saída</th>
         <th>Ações</th>
       </tr>
     </thead>
@@ -53,7 +56,7 @@ SGE - Saídas
           </a>
         </td>
         <td>{{ outflow.product }}</td>
-        <td>{{ outflow.supplier }}</td>
+        <td>{{ outflow.description }}</td>
         <td>{{ outflow.quantity }}</td>
         <td>{{ outflow.created_at }}</td>
         <td>

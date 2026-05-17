@@ -3,8 +3,10 @@ from django.utils.formats import number_format
 from django.utils import timezone
 from brands.models import Brand
 from categories.models import Category
+from inflows.models import Inflow
 from products.models import Product
 from outflows.models import Outflow
+from suppliers.models import Supplier
 
 
 def get_product_metrics():
@@ -79,3 +81,78 @@ def get_graphic_product_category_metric():
 def get_graphic_product_brand_metric():
     brands = Brand.objects.all()
     return {brand.name: Product.objects.filter(brand=brand).count() for brand in brands}
+
+
+def get_dashboard_metrics():
+    products = Product.objects.all()
+    total_products = products.count()
+    low_stock_products = products.filter(quantity__gt=0, quantity__lte=5).count()
+    out_of_stock_products = products.filter(quantity=0).count()
+    inflows_count = Inflow.objects.count()
+    outflows_count = Outflow.objects.count()
+    total_inventory_value = sum(product.selling_price * product.quantity for product in products)
+    total_inventory_cost = sum(product.cost_price * product.quantity for product in products)
+    estimated_margin = total_inventory_value - total_inventory_cost
+
+    return dict(
+        total_products=total_products,
+        total_categories=Category.objects.count(),
+        total_brands=Brand.objects.count(),
+        total_suppliers=Supplier.objects.count(),
+        low_stock_products=low_stock_products,
+        out_of_stock_products=out_of_stock_products,
+        inflows_count=inflows_count,
+        outflows_count=outflows_count,
+        total_movements=inflows_count + outflows_count,
+        inventory_value=number_format(total_inventory_value, decimal_pos=2, force_grouping=True),
+        estimated_margin=number_format(estimated_margin, decimal_pos=2, force_grouping=True),
+    )
+
+
+def get_stock_status_data():
+    healthy = Product.objects.filter(quantity__gt=5).count()
+    low = Product.objects.filter(quantity__gt=0, quantity__lte=5).count()
+    empty = Product.objects.filter(quantity=0).count()
+
+    return dict(
+        labels=['Saudável', 'Estoque baixo', 'Sem estoque'],
+        values=[healthy, low, empty],
+    )
+
+
+def get_category_inventory_value_data():
+    data = dict()
+    for category in Category.objects.all():
+        total = sum(product.selling_price * product.quantity for product in category.products.all())
+        if total:
+            data[category.name] = float(total)
+    return data
+
+
+def get_low_stock_products(limit=6):
+    return Product.objects.filter(quantity__lte=5).select_related('category', 'brand')[:limit]
+
+
+def get_recent_movements(limit=8):
+    inflows = [
+        dict(
+            kind='Entrada',
+            product=item.product.title,
+            quantity=item.quantity,
+            date=item.created_at,
+            description=item.description or 'Reposição de estoque',
+        )
+        for item in Inflow.objects.select_related('product').order_by('-created_at')[:limit]
+    ]
+    outflows = [
+        dict(
+            kind='Saída',
+            product=item.product.title,
+            quantity=item.quantity,
+            date=item.created_at,
+            description=item.description or 'Venda registrada',
+        )
+        for item in Outflow.objects.select_related('product').order_by('-created_at')[:limit]
+    ]
+
+    return sorted(inflows + outflows, key=lambda item: item['date'], reverse=True)[:limit]

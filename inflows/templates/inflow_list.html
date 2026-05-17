@@ -5,9 +5,21 @@ SGE - Entradas
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
+  <div>
+    <div class="eyebrow">Movimentações</div>
+    <h1 class="page-title">Entradas</h1>
+    <p class="page-description">Reposições registradas por fornecedor, produto e quantidade.</p>
+  </div>
+  {% if perms.inflows.add_inflow %}
+    <a href="{% url 'inflow_create' %}" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Nova entrada
+    </a>
+  {% endif %}
+</div>
 
 <div class="row mb-3">
-  <div class="col-md-6">
+  <div class="col-lg-6">
     <form method="get" action="{% url 'inflow_list' %}">
       <div class="input-group">
         <input type="text" class="form-control" name="product" placeholder="Produto" value="{{ request.GET.product }}">
@@ -17,13 +29,6 @@ SGE - Entradas
       </div>
     </form>
   </div>
-  {% if perms.inflows.add_inflow %}
-  <div class="col-md-6">
-    <a href="{% url 'inflow_create' %}" class="btn btn-success float-end">
-      <i class="bi bi-plus"></i> Nova Entrada
-    </a>
-  </div>
-  {% endif %}
 </div>
 
 <div class="table-responsive">

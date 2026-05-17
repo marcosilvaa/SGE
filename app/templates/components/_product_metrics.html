@@ -1,38 +1,22 @@
-<div class="card mt-4">
-  <div class="card-body">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card bg-primary">
-          <div class="card-body">
-            <h5 class="card-title">Quantidade de produtos</h5>
-            <p class="card-text text-white font-weight-bold display-6">{{ product_metrics.total_quantity }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card bg-danger">
-          <div class="card-body">
-            <h5 class="card-title">Custo do estoque (R$)</h5>
-            <p class="card-text text-white font-weight-bold display-6">{{ product_metrics.total_cost_price }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card bg-success">
-          <div class="card-body">
-            <h5 class="card-title">Valor do estoque (R$)</h5>
-            <p class="card-text text-white font-weight-bold display-6">{{ product_metrics.total_selling_price }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card bg-warning">
-          <div class="card-body">
-            <h5 class="card-title">Lucro do estoque (R$)</h5>
-            <p class="card-text text-white font-weight-bold display-6">{{ product_metrics.total_profit }}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<section class="metric-grid" aria-label="Indicadores de produtos">
+  <article class="metric-tile metric-accent-blue">
+    <div class="metric-label">Produtos em estoque</div>
+    <div class="metric-value">{{ product_metrics.total_quantity }}</div>
+    <div class="metric-note">Quantidade total cadastrada</div>
+  </article>
+  <article class="metric-tile metric-accent-red">
+    <div class="metric-label">Custo do estoque</div>
+    <div class="metric-value">R$ {{ product_metrics.total_cost_price }}</div>
+    <div class="metric-note">Valor de aquisição</div>
+  </article>
+  <article class="metric-tile metric-accent-green">
+    <div class="metric-label">Valor de venda</div>
+    <div class="metric-value">R$ {{ product_metrics.total_selling_price }}</div>
+    <div class="metric-note">Potencial bruto</div>
+  </article>
+  <article class="metric-tile metric-accent-yellow">
+    <div class="metric-label">Margem projetada</div>
+    <div class="metric-value">R$ {{ product_metrics.total_profit }}</div>
+    <div class="metric-note">Venda menos custo</div>
+  </article>
+</section>

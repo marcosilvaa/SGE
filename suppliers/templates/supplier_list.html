@@ -5,9 +5,21 @@ SGE - Fornecedores
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
+  <div>
+    <div class="eyebrow">Cadastros</div>
+    <h1 class="page-title">Fornecedores</h1>
+    <p class="page-description">Controle a origem das entradas e mantenha a reposição rastreável.</p>
+  </div>
+  {% if perms.suppliers.add_supplier %}
+    <a href="{% url 'supplier_create' %}" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Novo fornecedor
+    </a>
+  {% endif %}
+</div>
 
 <div class="row mb-3">
-  <div class="col-md-6">
+  <div class="col-lg-6">
     <form method="get" action="{% url 'supplier_list' %}">
       <div class="input-group">
         <input type="text" class="form-control" name="name" placeholder="Nome" value="{{ request.GET.name }}">
@@ -17,13 +29,6 @@ SGE - Fornecedores
       </div>
     </form>
   </div>
-  {% if perms.suppliers.add_supplier %}
-  <div class="col-md-6">
-    <a href="{% url 'supplier_create' %}" class="btn btn-success float-end">
-      <i class="bi bi-plus"></i> Novo Fornecedor
-    </a>
-  </div>
-  {% endif %}
 </div>
 
 <div class="table-responsive">

@@ -10,3 +10,4 @@ wheels/
 .env
 db.sqlite
 media
+refs/

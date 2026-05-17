@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% block title %}
+SGE - Controle de estoque
+{% endblock %}
+
+{% block content %}
+<section class="landing-hero">
+  <div class="landing-hero-scene" aria-hidden="true">
+    <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
+    <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
+    <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
+    <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
+    <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
+    <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
+  </div>
+  <div class="landing-hero-content">
+    <div class="eyebrow text-white-50">SGE Portfolio Case</div>
+    <h1>Controle de estoque com operação visível.</h1>
+    <p>
+      Sistema Django para cadastros, entradas, saídas, indicadores de estoque e leitura rápida da saúde operacional.
+    </p>
+    <div class="landing-actions">
+      <a class="btn btn-primary" href="{% url 'login' %}">Entrar</a>
+      <a class="btn btn-secondary" href="#dashboard-preview">Ver dashboard</a>
+    </div>
+  </div>
+</section>
+
+<section class="landing-section landing-section-muted" id="recursos">
+  <div class="landing-inner">
+    <div class="section-label">Produto</div>
+    <h2 class="section-title">Base administrativa completa para gestão de estoque.</h2>
+    <p class="section-copy">
+      A aplicação preserva o fluxo original do curso, mas apresenta cadastros, métricas e movimentações com acabamento de produto real.
+    </p>
+
+    <div class="feature-grid">
+      <article class="feature-item">
+        <i class="bi bi-box-seam"></i>
+        <h3>Produtos rastreáveis</h3>
+        <p>Cadastro com categoria, marca, série, preço de custo, preço de venda e saldo atual.</p>
+      </article>
+      <article class="feature-item">
+        <i class="bi bi-arrow-left-right"></i>
+        <h3>Movimentações claras</h3>
+        <p>Entradas e saídas organizadas para acompanhar reposição, vendas e ritmo de operação.</p>
+      </article>
+      <article class="feature-item">
+        <i class="bi bi-graph-up"></i>
+        <h3>Indicadores executivos</h3>
+        <p>Valor em estoque, margem estimada, estoque baixo e vendas recentes em visão única.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="landing-section" id="dashboard-preview">
+  <div class="landing-inner">
+    <div class="section-label">Dashboard</div>
+    <h2 class="section-title">Indicadores para decisão rápida.</h2>
+    <p class="section-copy">
+      As visualizações usam dados reais dos models do projeto: produtos, marcas, categorias, fornecedores, entradas e saídas.
+    </p>
+
+    <div class="metric-grid mt-4">
+      <div class="metric-tile metric-accent-blue">
+        <div class="metric-label">Produtos</div>
+        <div class="metric-value">{{ landing_metrics.total_products }}</div>
+        <div class="metric-note">Itens cadastrados</div>
+      </div>
+      <div class="metric-tile metric-accent-green">
+        <div class="metric-label">Movimentos</div>
+        <div class="metric-value">{{ landing_metrics.total_movements }}</div>
+        <div class="metric-note">Entradas e saídas</div>
+      </div>
+      <div class="metric-tile metric-accent-yellow">
+        <div class="metric-label">Estoque baixo</div>
+        <div class="metric-value">{{ landing_metrics.low_stock_products }}</div>
+        <div class="metric-note">Itens pedindo atenção</div>
+      </div>
+      <div class="metric-tile metric-accent-red">
+        <div class="metric-label">Sem estoque</div>
+        <div class="metric-value">{{ landing_metrics.out_of_stock_products }}</div>
+        <div class="metric-note">Reposição crítica</div>
+      </div>
+    </div>
+
+    <div class="dashboard-preview">
+      <div class="preview-pane">
+        <div class="section-label">Vendas · 7 dias</div>
+        <h3>Volume operacional</h3>
+        <div class="preview-bars" aria-hidden="true">
+          <span class="preview-bar" style="height: 42%"></span>
+          <span class="preview-bar" style="height: 66%"></span>
+          <span class="preview-bar" style="height: 52%"></span>
+          <span class="preview-bar" style="height: 78%"></span>
+          <span class="preview-bar" style="height: 60%"></span>
+          <span class="preview-bar" style="height: 86%"></span>
+          <span class="preview-bar" style="height: 72%"></span>
+        </div>
+      </div>
+      <div class="preview-pane">
+        <div class="section-label">Estoque</div>
+        <h3>Leitura por prioridade</h3>
+        <div class="preview-list">
+          <div class="preview-row"><span>Produtos saudáveis</span><strong>Saldo acima do mínimo</strong></div>
+          <div class="preview-row"><span>Estoque baixo</span><strong>Reposição próxima</strong></div>
+          <div class="preview-row"><span>Sem estoque</span><strong>Ação imediata</strong></div>
+          <div class="preview-row"><span>Margem estimada</span><strong>R$ {{ landing_metrics.estimated_margin }}</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="landing-section landing-section-muted">
+  <div class="landing-inner">
+    <div class="section-label">Módulos</div>
+    <h2 class="section-title">Fluxo preservado, apresentação elevada.</h2>
+    <div class="module-grid">
+      <article class="module-item">
+        <i class="bi bi-tags"></i>
+        <h3>Categorias e marcas</h3>
+        <p>Classificação simples para filtros, relatórios e leitura de mix de produtos.</p>
+      </article>
+      <article class="module-item">
+        <i class="bi bi-truck"></i>
+        <h3>Fornecedores</h3>
+        <p>Origem das entradas conectada ao fluxo de reposição do estoque.</p>
+      </article>
+      <article class="module-item">
+        <i class="bi bi-shield-check"></i>
+        <h3>Área autenticada</h3>
+        <p>Navegação administrativa protegida por login e permissões do Django.</p>
+      </article>
+    </div>
+  </div>
+</section>
+{% endblock %}

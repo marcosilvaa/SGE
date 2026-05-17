@@ -5,9 +5,21 @@ SGE - Marcas
 {% endblock %}
 
 {% block content %}
+<div class="page-header">
+  <div>
+    <div class="eyebrow">Cadastros</div>
+    <h1 class="page-title">Marcas</h1>
+    <p class="page-description">Organize fabricantes e linhas comerciais usadas nos produtos.</p>
+  </div>
+  {% if perms.brands.add_brand %}
+    <a href="{% url 'brand_create' %}" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Nova marca
+    </a>
+  {% endif %}
+</div>
 
 <div class="row mb-3">
-  <div class="col-md-6">
+  <div class="col-lg-6">
     <form method="get" action="{% url 'brand_list' %}">
       <div class="input-group">
         <input type="text" class="form-control" name="name" placeholder="Nome" value="{{ request.GET.name }}">
@@ -17,13 +29,6 @@ SGE - Marcas
       </div>
     </form>
   </div>
-  {% if perms.brands.add_brand %}
-  <div class="col-md-6">
-    <a href="{% url 'brand_create' %}" class="btn btn-success float-end">
-      <i class="bi bi-plus"></i> Nova Marca
-    </a>
-  </div>
-  {% endif %}
 </div>
 
 <div class="table-responsive">
