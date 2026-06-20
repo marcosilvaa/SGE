@@ -1,8 +1,14 @@
 import json
+
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 # from ai.models import AIResult  <-- Mantenha comentado se não for usar agora
 from . import metrics
+
+
+def health(request):
+    return JsonResponse({"status": "ok"})
 
 
 def landing(request):
