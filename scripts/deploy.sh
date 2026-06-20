@@ -48,7 +48,8 @@ load_env_file() {
 }
 
 require_var() {
-  local name="$1" value="${!name:-}"
+  local name="$1"
+  local value="${!name:-}"
   if [ -z "$value" ]; then
     echo "Missing required variable: $name" >&2
     exit 1

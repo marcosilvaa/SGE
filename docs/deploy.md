@@ -252,3 +252,34 @@ docker run --rm -v sge_media_data:/media -v /home/sge/backups/sge/<backup>:/back
 Create a new secret name, update the stack file to reference it, deploy, verify, then remove the old secret after no service uses it.
 
 For database password rotation, use a maintenance window unless dual-password rotation is implemented.
+
+## 13. Automatic deploy with GitHub Actions
+
+The repository includes `.github/workflows/deploy.yml`.
+
+On every push to `main`, GitHub Actions will:
+
+1. build a multi-arch Docker image for `linux/amd64` and `linux/arm64`;
+2. push it to `ghcr.io/marcosilvaa/sge` with tags `latest` and the commit SHA;
+3. connect to the VPS over SSH;
+4. run `./scripts/deploy.sh --env-file .env --skip-build --tag <commit-sha>`.
+
+Required GitHub repository secrets:
+
+```text
+VPS_HOST          VPS public IP or DNS name
+VPS_USER          usually sge
+VPS_SSH_KEY       private key allowed to SSH into VPS_USER
+VPS_PORT          optional; defaults to 22
+VPS_DEPLOY_PATH   optional; defaults to /home/sge/SGE
+GHCR_USERNAME     GitHub username, e.g. marcosilvaa
+GHCR_TOKEN        GitHub PAT with read:packages for the VPS docker pull
+```
+
+The workflow uses the built-in `GITHUB_TOKEN` to push the image to GHCR. Make sure the repository has Actions permission to write packages:
+
+```text
+GitHub repo -> Settings -> Actions -> General -> Workflow permissions -> Read and write permissions
+```
+
+The VPS still needs its own deploy prerequisites: `.env`, Docker secrets, Swarm active, `traefik_public` network, and GitHub SSH access for `git pull`.
