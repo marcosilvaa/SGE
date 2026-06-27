@@ -88,3 +88,21 @@ class PortfolioExperienceTests(TestCase):
         self.assertContains(response, "Exit")
         self.assertContains(response, "https://marcoasilva.com.br/pages/projetos")
         self.assertContains(response, "Meu Estoque")
+
+
+    def test_demo_lists_show_full_crud_actions(self):
+        response = self.client.get(reverse("product_list"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, reverse("product_create"))
+        self.assertContains(response, reverse("product_update", args=[self.product.pk]))
+        self.assertContains(response, reverse("product_delete", args=[self.product.pk]))
+
+    def test_demo_save_button_is_visible_but_inert(self):
+        response = self.client.get(reverse("product_create"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Salvar")
+        self.assertContains(response, 'class="demo-inert-form"')
+        self.assertContains(response, 'type="button"')
+        self.assertNotContains(response, 'type="submit"')

@@ -11,14 +11,14 @@ SGE - Saídas
     <h1 class="page-title">Saídas</h1>
     <p class="page-description">Vendas e retiradas de estoque com impacto direto nos indicadores.</p>
   </div>
-  {% if perms.outflows.add_outflow %}
+  {% if demo_mode or perms.outflows.add_outflow %}
     <a href="{% url 'outflow_create' %}" class="btn btn-primary">
       <i class="bi bi-plus"></i> Nova saída
     </a>
   {% endif %}
 </div>
 
-{% if perms.outflows.view_outflow %}
+{% if demo_mode or perms.outflows.view_outflow %}
 {% include 'components/_sales_metrics.html' %}
 {% endif %}
 
@@ -62,6 +62,12 @@ SGE - Saídas
         <td>
           <a href="{% url 'outflow_detail' outflow.id %}" class="btn btn-info btn-sm">
             <i class="bi bi-eye"></i>
+          </a>
+          <a href="{% url 'outflow_update' outflow.id %}" class="btn btn-warning btn-sm">
+            <i class="bi bi-pencil"></i>
+          </a>
+          <a href="{% url 'outflow_delete' outflow.id %}" class="btn btn-danger btn-sm btn-delete">
+            <i class="bi bi-trash"></i>
           </a>
         </td>
       </tr>

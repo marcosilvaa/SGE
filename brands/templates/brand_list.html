@@ -11,7 +11,7 @@ SGE - Marcas
     <h1 class="page-title">Marcas</h1>
     <p class="page-description">Organize fabricantes e linhas comerciais usadas nos produtos.</p>
   </div>
-  {% if perms.brands.add_brand %}
+  {% if demo_mode or perms.brands.add_brand %}
     <a href="{% url 'brand_create' %}" class="btn btn-primary">
       <i class="bi bi-plus"></i> Nova marca
     </a>
@@ -56,13 +56,13 @@ SGE - Marcas
             <i class="bi bi-eye"></i>
           </a>
 
-          {% if perms.brands.change_brand %}
+          {% if demo_mode or perms.brands.change_brand %}
           <a href="{% url 'brand_update' brand.id %}" class="btn btn-warning btn-sm">
             <i class="bi bi-pencil"></i>
           </a>
           {% endif %}
 
-          {% if perms.brands.delete_brand %}
+          {% if demo_mode or perms.brands.delete_brand %}
           <a href="{% url 'brand_delete' brand.id %}" class="btn btn-danger btn-sm btn-delete">
             <i class="bi bi-trash"></i>
           </a>

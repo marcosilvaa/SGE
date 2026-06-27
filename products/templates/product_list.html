@@ -11,14 +11,14 @@
       <h1 class="page-title">Produtos</h1>
       <p class="page-description">Catálogo com saldo, classificação, preço de custo, preço de venda e número de série.</p>
     </div>
-    {% if perms.products.add_product %}
+    {% if demo_mode or perms.products.add_product %}
       <a href="{% url 'product_create' %}" class="btn btn-primary">
         <i class="bi bi-plus"></i> Novo produto
       </a>
     {% endif %}
   </div>
 
-  {% if perms.products.view_product and perms.inflows.view_inflow %}
+  {% if demo_mode or perms.products.view_product and perms.inflows.view_inflow %}
     {% include 'components/_product_metrics.html' %}
   {% endif %}
 
@@ -95,13 +95,13 @@
                 <i class="bi bi-eye"></i>
               </a>
 
-              {% if perms.products.change_product %}
+              {% if demo_mode or perms.products.change_product %}
                 <a href="{% url 'product_update' product.id %}" class="btn btn-warning btn-sm">
                   <i class="bi bi-pencil"></i>
                 </a>
               {% endif %}
 
-              {% if perms.products.delete_product %}
+              {% if demo_mode or perms.products.delete_product %}
                 <a href="{% url 'product_delete' product.id %}" class="btn btn-danger btn-sm btn-delete">
                   <i class="bi bi-trash"></i>
                 </a>

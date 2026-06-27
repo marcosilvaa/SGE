@@ -8,9 +8,9 @@
       <div class="card-body">
         <p class="card-text">Tem certeza de que deseja excluir o produto <strong>{{ object.title }}</strong>?</p>
 
-        <form method="post">
+        <form method="post" class="demo-inert-form">
           {% csrf_token %}
-          <button type="submit" class="btn btn-danger">Deletar</button>
+          <button type="button" data-demo-inert="true" class="btn btn-danger">Excluir</button>
         </form>
         
         <a href="{% url 'product_list' %}" class="btn btn-secondary mt-3">Cancelar e Voltar para a Lista de Produtos</a>

@@ -11,7 +11,7 @@ SGE - Categorias
     <h1 class="page-title">Categorias</h1>
     <p class="page-description">Classifique produtos para filtros, leitura de mix e relatórios de estoque.</p>
   </div>
-  {% if perms.categories.add_category %}
+  {% if demo_mode or perms.categories.add_category %}
     <a href="{% url 'category_create' %}" class="btn btn-primary">
       <i class="bi bi-plus"></i> Nova categoria
     </a>
@@ -56,13 +56,13 @@ SGE - Categorias
             <i class="bi bi-eye"></i>
           </a>
 
-          {% if perms.categories.change_category %}
+          {% if demo_mode or perms.categories.change_category %}
           <a href="{% url 'category_update' category.id %}" class="btn btn-warning btn-sm">
             <i class="bi bi-pencil"></i>
           </a>
           {% endif %}
 
-          {% if perms.categories.delete_category %}
+          {% if demo_mode or perms.categories.delete_category %}
           <a href="{% url 'category_delete' category.id %}" class="btn btn-danger btn-sm btn-delete">
             <i class="bi bi-trash"></i>
           </a>

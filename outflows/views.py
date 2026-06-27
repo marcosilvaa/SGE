@@ -1,6 +1,6 @@
 from rest_framework import generics
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, DetailView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from . import models, forms, serializers
 from app import metrics
 from app.demo import DemoAPIViewMixin, DemoDeleteSimulationMixin, DemoWriteSimulationMixin
@@ -36,6 +36,20 @@ class OutflowCreateView(DemoWriteSimulationMixin, CreateView):
     success_url = reverse_lazy('outflow_list')
     permission_required = 'outflows.add_outflow'
 
+
+
+
+class OutflowUpdateView(DemoWriteSimulationMixin, UpdateView):
+    model = models.Outflow
+    form_class = forms.OutflowForm
+    template_name = 'outflow_update.html'
+    success_url = reverse_lazy('outflow_list')
+
+
+class OutflowDeleteView(DemoDeleteSimulationMixin, DeleteView):
+    model = models.Outflow
+    template_name = 'outflow_delete.html'
+    success_url = reverse_lazy('outflow_list')
 
 class OutflowDetailView(DetailView):
     model = models.Outflow
