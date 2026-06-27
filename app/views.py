@@ -1,6 +1,5 @@
 import json
 
-from django.conf import settings
 from django.http import JsonResponse
 from django.shortcuts import render
 # from ai.models import AIResult  <-- Mantenha comentado se não for usar agora
@@ -21,11 +20,9 @@ def redirect_home(request):
 
 
 def landing(request):
-    if settings.DEMO_MODE:
-        return redirect_home(request)
-
     context = {
         'landing_metrics': metrics.get_dashboard_metrics(),
+        'public_landing': True,
     }
     return render(request, 'landing.html', context)
 

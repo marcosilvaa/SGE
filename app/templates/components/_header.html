@@ -2,7 +2,7 @@
   <div class="container-fluid px-3 px-lg-4">
     <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'landing' %}">
       <span class="brand-mark">SGE</span>
-      <span>Stock Governance</span>
+      <span>Meu Estoque</span>
     </a>
 
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#sgeTopbar"
@@ -13,6 +13,7 @@
     <div class="collapse navbar-collapse" id="sgeTopbar">
       <ul class="navbar-nav ms-auto align-items-center gap-lg-3">
         {% if demo_mode %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'landing' %}">Home</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Dashboard</a></li>
           <li class="nav-item"><span class="badge text-bg-warning">Demo</span></li>
         {% elif user.is_authenticated %}

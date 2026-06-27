@@ -24,7 +24,7 @@
   <a class="skip-link" href="#main-content">Ir para o conteúdo</a>
   {% include 'components/_header.html' %}
 
-  {% if demo_mode or user.is_authenticated %}
+  {% if demo_mode and not public_landing or user.is_authenticated %}
     <div class="app-shell">
       {% include 'components/_sidebar.html' %}
       <main id="main-content" class="app-main">
@@ -33,7 +33,7 @@
     <main id="main-content" class="public-main">
   {% endif %}
 
-  {% if demo_mode %}
+  {% if demo_mode and not public_landing %}
     <div class="alert alert-warning mb-4" role="alert">
       <strong>Modo demonstração:</strong> navegação liberada. Ações de criar, editar e excluir são simuladas e não salvam dados.
     </div>
@@ -47,7 +47,7 @@
   {% block content %}
   {% endblock %}
 
-  {% if demo_mode or user.is_authenticated %}
+  {% if demo_mode and not public_landing or user.is_authenticated %}
         </div>
       </main>
     </div>

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block title %}
-SGE - Controle de estoque
+Meu Estoque - Controle de estoque
 {% endblock %}
 
 {% block content %}
@@ -15,14 +15,14 @@ SGE - Controle de estoque
     <span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span><span class="warehouse-cell"></span>
   </div>
   <div class="landing-hero-content">
-    <div class="eyebrow text-white-50">SGE Portfolio Case</div>
+    <div class="eyebrow text-white-50">Meu Estoque Demo</div>
     <h1>Controle de estoque com operação visível.</h1>
     <p>
       Sistema Django para cadastros, entradas, saídas, indicadores de estoque e leitura rápida da saúde operacional.
     </p>
     <div class="landing-actions">
-      <a class="btn btn-primary" href="{% url 'login' %}">Entrar</a>
-      <a class="btn btn-secondary" href="#dashboard-preview">Ver dashboard</a>
+      <a class="btn btn-primary" href="{% url 'home' %}">Acessar dashboard</a>
+      <a class="btn btn-secondary" href="#dashboard-preview">Ver prévia</a>
     </div>
   </div>
 </section>
@@ -131,8 +131,8 @@ SGE - Controle de estoque
       </article>
       <article class="module-item">
         <i class="bi bi-shield-check"></i>
-        <h3>Área autenticada</h3>
-        <p>Navegação administrativa protegida por login e permissões do Django.</p>
+        <h3>Demo pública</h3>
+        <p>Navegação livre para conhecer telas, cadastros e movimentações sem alterar dados reais.</p>
       </article>
     </div>
   </div>

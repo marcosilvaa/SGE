@@ -34,11 +34,13 @@ class PortfolioExperienceTests(TestCase):
             description="Venda balcão",
         )
 
-    def test_root_redirects_to_public_demo_dashboard(self):
+    def test_root_shows_public_landing_with_dashboard_button(self):
         response = self.client.get(reverse("landing"))
 
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response["Location"], reverse("home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Meu Estoque")
+        self.assertContains(response, "Acessar dashboard")
+        self.assertTemplateUsed(response, "landing.html")
 
     def test_dashboard_route_is_public_demo(self):
         response = self.client.get(reverse("home"))
@@ -79,3 +81,10 @@ class PortfolioExperienceTests(TestCase):
         self.assertEqual(response["Location"], reverse("brand_list"))
         self.assertEqual(Brand.objects.count(), before)
         self.assertTrue(Brand.objects.filter(pk=self.brand.pk).exists())
+
+    def test_sidebar_has_exit_link_in_public_demo(self):
+        response = self.client.get(reverse("home"))
+
+        self.assertContains(response, "Exit")
+        self.assertContains(response, "https://marcoasilva.com.br/pages/projetos")
+        self.assertContains(response, "Meu Estoque")

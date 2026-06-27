@@ -76,9 +76,16 @@
       {% endif %}
     </ul>
 
-    {% if not demo_mode %}
-      <span class="sidebar-heading mt-4">Sessão</span>
-      <ul class="sidebar-nav">
+    <span class="sidebar-heading mt-4">Sessão</span>
+    <ul class="sidebar-nav">
+      {% if demo_mode %}
+        <li>
+          <a href="https://marcoasilva.com.br/pages/projetos" class="nav-link">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Exit</span>
+          </a>
+        </li>
+      {% else %}
         <li>
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
@@ -88,7 +95,7 @@
             </button>
           </form>
         </li>
-      </ul>
-    {% endif %}
+      {% endif %}
+    </ul>
   </div>
 </aside>
