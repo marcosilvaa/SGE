@@ -1,11 +1,11 @@
 from rest_framework import generics
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from . import models, forms, serializers
+from app.demo import DemoAPIViewMixin, DemoDeleteSimulationMixin, DemoWriteSimulationMixin
 
 
-class CategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class CategoryListView(ListView):
     model = models.Category
     template_name = 'category_list.html'
     context_object_name = 'categories'
@@ -21,7 +21,7 @@ class CategoryListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return queryset
 
 
-class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class CategoryCreateView(DemoWriteSimulationMixin, CreateView):
     model = models.Category
     template_name = 'category_create.html'
     form_class = forms.CategoryForm
@@ -29,13 +29,13 @@ class CategoryCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     permission_required = 'categories.add_category'
 
 
-class CategoryDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class CategoryDetailView(DetailView):
     model = models.Category
     template_name = 'category_detail.html'
     permission_required = 'categories.view_category'
 
 
-class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class CategoryUpdateView(DemoWriteSimulationMixin, UpdateView):
     model = models.Category
     template_name = 'category_update.html'
     form_class = forms.CategoryForm
@@ -43,18 +43,18 @@ class CategoryUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     permission_required = 'categories.change_category'
 
 
-class CategoryDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class CategoryDeleteView(DemoDeleteSimulationMixin, DeleteView):
     model = models.Category
     template_name = 'category_delete.html'
     success_url = reverse_lazy('category_list')
     permission_required = 'categories.delete_category'
 
 
-class CategoryCreateListAPIView(generics.ListCreateAPIView):
+class CategoryCreateListAPIView(DemoAPIViewMixin, generics.ListCreateAPIView):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
 
 
-class CategoryRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class CategoryRetrieveUpdateDestroyAPIView(DemoAPIViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer

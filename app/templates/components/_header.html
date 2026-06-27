@@ -12,7 +12,10 @@
 
     <div class="collapse navbar-collapse" id="sgeTopbar">
       <ul class="navbar-nav ms-auto align-items-center gap-lg-3">
-        {% if user.is_authenticated %}
+        {% if demo_mode %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Dashboard</a></li>
+          <li class="nav-item"><span class="badge text-bg-warning">Demo</span></li>
+        {% elif user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
           </li>

@@ -1,8 +1,8 @@
 import json
 
-from django.contrib.auth.decorators import login_required
+from django.conf import settings
 from django.http import JsonResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 # from ai.models import AIResult  <-- Mantenha comentado se não for usar agora
 from . import metrics
 
@@ -11,9 +11,18 @@ def health(request):
     return JsonResponse({"status": "ok"})
 
 
+def demo_entry(request):
+    return redirect_home(request)
+
+
+def redirect_home(request):
+    from django.shortcuts import redirect
+    return redirect('home')
+
+
 def landing(request):
-    if request.user.is_authenticated:
-        return redirect('home')
+    if settings.DEMO_MODE:
+        return redirect_home(request)
 
     context = {
         'landing_metrics': metrics.get_dashboard_metrics(),
@@ -21,7 +30,6 @@ def landing(request):
     return render(request, 'landing.html', context)
 
 
-@login_required(login_url='login')
 def home(request):
     product_metrics = metrics.get_product_metrics()
     # print("DEBUG METRICS:", product_metrics)

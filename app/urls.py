@@ -1,14 +1,13 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.contrib.auth import views as auth_views
 from . import views
 
 
 urlpatterns = [
     path('health/', views.health, name='health'),
     path('admin/', admin.site.urls),
-    path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('login/', views.demo_entry, name='login'),
+    path('logout/', views.demo_entry, name='logout'),
     path('api/v1/', include('authentication.urls')),
     path('', views.landing, name='landing'),
     path('dashboard/', views.home, name='home'),

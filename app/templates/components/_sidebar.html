@@ -14,7 +14,7 @@
           <span>Dashboard</span>
         </a>
       </li>
-      {% if perms.products.view_product %}
+      {% if demo_mode or perms.products.view_product %}
         <li>
           <a href="{% url 'product_list' %}" class="nav-link">
             <i class="bi bi-box-seam"></i>
@@ -22,7 +22,7 @@
           </a>
         </li>
       {% endif %}
-      {% if perms.inflows.view_inflow %}
+      {% if demo_mode or perms.inflows.view_inflow %}
         <li>
           <a href="{% url 'inflow_list' %}" class="nav-link">
             <i class="bi bi-arrow-down-left-square"></i>
@@ -30,7 +30,7 @@
           </a>
         </li>
       {% endif %}
-      {% if perms.outflows.view_outflow %}
+      {% if demo_mode or perms.outflows.view_outflow %}
         <li>
           <a href="{% url 'outflow_list' %}" class="nav-link">
             <i class="bi bi-arrow-up-right-square"></i>
@@ -42,7 +42,7 @@
 
     <span class="sidebar-heading mt-4">Cadastros</span>
     <ul class="sidebar-nav">
-      {% if perms.suppliers.view_supplier %}
+      {% if demo_mode or perms.suppliers.view_supplier %}
         <li>
           <a href="{% url 'supplier_list' %}" class="nav-link">
             <i class="bi bi-truck"></i>
@@ -50,7 +50,7 @@
           </a>
         </li>
       {% endif %}
-      {% if perms.brands.view_brand %}
+      {% if demo_mode or perms.brands.view_brand %}
         <li>
           <a href="{% url 'brand_list' %}" class="nav-link">
             <i class="bi bi-shop"></i>
@@ -58,7 +58,7 @@
           </a>
         </li>
       {% endif %}
-      {% if perms.categories.view_category %}
+      {% if demo_mode or perms.categories.view_category %}
         <li>
           <a href="{% url 'category_list' %}" class="nav-link">
             <i class="bi bi-tags"></i>
@@ -66,7 +66,7 @@
           </a>
         </li>
       {% endif %}
-      {% if user.is_staff %}
+      {% if not demo_mode and user.is_staff %}
         <li>
           <a href="{% url 'admin:index' %}" class="nav-link">
             <i class="bi bi-gear-fill"></i>
@@ -76,17 +76,19 @@
       {% endif %}
     </ul>
 
-    <span class="sidebar-heading mt-4">Sessão</span>
-    <ul class="sidebar-nav">
-      <li>
-        <form action="{% url 'logout' %}" method="post">
-          {% csrf_token %}
-          <button type="submit" class="nav-link">
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Sair</span>
-          </button>
-        </form>
-      </li>
-    </ul>
+    {% if not demo_mode %}
+      <span class="sidebar-heading mt-4">Sessão</span>
+      <ul class="sidebar-nav">
+        <li>
+          <form action="{% url 'logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="nav-link">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sair</span>
+            </button>
+          </form>
+        </li>
+      </ul>
+    {% endif %}
   </div>
 </aside>

@@ -57,6 +57,7 @@ SECRET_KEY = read_secret(
     "django-insecure-q)=fynk31-1!o72!9fhi#2b6l)!6vpxjjqqw(vy=e&(3(uj7l3",
 )
 DEBUG = env_bool("DJANGO_DEBUG", True)
+DEMO_MODE = env_bool("DEMO_MODE", True)
 
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS")
 if not ALLOWED_HOSTS and DEBUG:
@@ -118,6 +119,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "app.context_processors.demo_mode",
             ],
         },
     },
@@ -181,8 +183,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-        "rest_framework.permissions.DjangoModelPermissions",
+        "rest_framework.permissions.AllowAny",
     ),
 }
 

@@ -34,31 +34,25 @@ class PortfolioExperienceTests(TestCase):
             description="Venda balcão",
         )
 
-    def test_landing_page_is_public_root(self):
-        response = self.client.get(reverse("landing"))
-
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "Controle de estoque")
-        self.assertContains(response, "Entrar")
-        self.assertTemplateUsed(response, "landing.html")
-
-    def test_dashboard_route_requires_login(self):
-        response = self.client.get(reverse("home"))
-
-        self.assertEqual(response.status_code, 302)
-        self.assertIn("/login/", response["Location"])
-
-    def test_authenticated_root_redirects_to_dashboard(self):
-        self.client.force_login(self.user)
-
+    def test_root_redirects_to_public_demo_dashboard(self):
         response = self.client.get(reverse("landing"))
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response["Location"], reverse("home"))
 
-    def test_authenticated_dashboard_exposes_operational_visualizations(self):
-        self.client.force_login(self.user)
+    def test_dashboard_route_is_public_demo(self):
+        response = self.client.get(reverse("home"))
 
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Modo demonstração")
+
+    def test_login_redirects_to_public_demo_dashboard(self):
+        response = self.client.get(reverse("login"))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], reverse("home"))
+
+    def test_public_demo_dashboard_exposes_operational_visualizations(self):
         response = self.client.get(reverse("home"))
 
         self.assertEqual(response.status_code, 200)
@@ -66,3 +60,22 @@ class PortfolioExperienceTests(TestCase):
         self.assertIn("stock_status_data", response.context)
         self.assertIn("recent_movements", response.context)
         self.assertGreaterEqual(response.context["dashboard_metrics"]["low_stock_products"], 1)
+
+    def test_public_demo_create_action_is_simulated_without_saving(self):
+        before = Brand.objects.count()
+
+        response = self.client.post(reverse("brand_create"), {"name": "Demo Brand"})
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], reverse("brand_list"))
+        self.assertEqual(Brand.objects.count(), before)
+
+    def test_public_demo_delete_action_is_simulated_without_deleting(self):
+        before = Brand.objects.count()
+
+        response = self.client.post(reverse("brand_delete", args=[self.brand.pk]))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response["Location"], reverse("brand_list"))
+        self.assertEqual(Brand.objects.count(), before)
+        self.assertTrue(Brand.objects.filter(pk=self.brand.pk).exists())

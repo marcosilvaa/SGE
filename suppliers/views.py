@@ -1,11 +1,11 @@
 from django.urls import reverse_lazy
 from rest_framework import generics
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from . import models, forms, serializers
+from app.demo import DemoAPIViewMixin, DemoDeleteSimulationMixin, DemoWriteSimulationMixin
 
 
-class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
+class SupplierListView(ListView):
     model = models.Supplier
     template_name = 'supplier_list.html'
     context_object_name = 'suppliers'
@@ -21,7 +21,7 @@ class SupplierListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         return queryset
 
 
-class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class SupplierCreateView(DemoWriteSimulationMixin, CreateView):
     model = models.Supplier
     template_name = 'supplier_create.html'
     form_class = forms.SupplierForm
@@ -29,13 +29,13 @@ class SupplierCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView
     permission_required = 'suppliers.add_supplier'
 
 
-class SupplierDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+class SupplierDetailView(DetailView):
     model = models.Supplier
     template_name = 'supplier_detail.html'
     permission_required = 'suppliers.view_supplier'
 
 
-class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class SupplierUpdateView(DemoWriteSimulationMixin, UpdateView):
     model = models.Supplier
     template_name = 'supplier_update.html'
     form_class = forms.SupplierForm
@@ -43,18 +43,18 @@ class SupplierUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView
     permission_required = 'suppliers.change_supplier'
 
 
-class SupplierDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class SupplierDeleteView(DemoDeleteSimulationMixin, DeleteView):
     model = models.Supplier
     template_name = 'supplier_delete.html'
     success_url = reverse_lazy('supplier_list')
     permission_required = 'suppliers.delete_supplier'
 
 
-class SupplierCreateListAPIView(generics.ListCreateAPIView):
+class SupplierCreateListAPIView(DemoAPIViewMixin, generics.ListCreateAPIView):
     queryset = models.Supplier.objects.all()
     serializer_class = serializers.SupplierSerializer
 
 
-class SupplierRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class SupplierRetrieveUpdateDestroyAPIView(DemoAPIViewMixin, generics.RetrieveUpdateDestroyAPIView):
     queryset = models.Supplier.objects.all()
     serializer_class = serializers.SupplierSerializer
